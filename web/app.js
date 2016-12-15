@@ -1,22 +1,30 @@
-var http = require('http');
-var fs = require('fs');
+var express = require('express');
+var routes = require('./routes/index');
+var cookieParser = require('cookie-parser');
 
 
-function onRequest(request, response) {
-  if (request.method == 'GET' && request.url == '/'){
-    response.writeHead(200, {"Content-Type": "text/html"});
-    fs.createReadStream("./index.html").pipe(response);
-  }
-  else{
-    show404Error(response);
-  }
-}
+var app = express();
 
-function show404Error(response){
-  response.writeHead(404, {"Content-Type": "text/plain"});
-  response.write("Error 404: Page not found!");
-  response.end();
-}
+app.set('views', __dirname+'/views');
+app.set('view engine', 'ejs');
 
-http.createServer(onRequest).listen(8888);
-console.log("Server is running at http://localhost:8888...");
+app.use('/', routes);
+
+
+
+app.use(function(res, req, next){
+  var err = new Error('404 Not Found!');
+  err.status = 404;
+  next(err);
+})
+
+
+app.use(function(err, req, res, next){
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: err
+  });
+});
+
+app.listen(8888);
