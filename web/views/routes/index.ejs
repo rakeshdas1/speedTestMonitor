@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <% include head%>
+  </head>
+  <body>
+    <header>
+      <% include header%>
+    </header>
+    <p>This is the index page!</p>
+    <h1><%=tagline%><h1>
+    <h1>Late night hosts: </h1>
+    <ul>
+      <% nightHosts.forEach(function(hosts){%>
+        <li><em><%=hosts.name%></em> - <%=hosts.age%></li>
+      <% }); %>
+  </body>
+</html>
