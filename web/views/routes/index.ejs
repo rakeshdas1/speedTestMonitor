@@ -2,7 +2,7 @@
   <head>
     <% include head%>
   </head>
-  <body>
+  <body class="container">
     <header>
       <% include header%>
     </header>
@@ -11,7 +11,38 @@
     <h1>Late night hosts: </h1>
     <ul>
       <% nightHosts.forEach(function(hosts){%>
-        <li><em><%=hosts.name%></em> - <%=hosts.age%></li>
+        <li><b><%=hosts.name%></b> - <%=hosts.age%></li>
       <% }); %>
+    </ul>
+    <table class="table table-hover table-bordered">
+      <thead>
+        <tr>
+        <th>
+          Run Number
+        </th>
+        <th>
+          Next Station Name
+        </th>
+        <th>
+          Heading towards
+        </th>
+      </tr>
+    </thead>
+      <tbody>
+        <% trains.forEach(function(train){%>
+        <tr>
+          <td>
+            <%=train.rn%>
+          </td>
+          <td>
+            <%=train.nextStaNm%>
+          </td>
+          <td>
+            <%=train.destNm%>
+          </td>
+        </tr>
+        <%});%>
+      </tbody>
+    </table>
   </body>
 </html>
