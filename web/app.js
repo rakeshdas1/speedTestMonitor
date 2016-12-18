@@ -2,27 +2,26 @@ var express = require('express');
 var request = require('request');
 var cookieParser = require('cookie-parser');
 var fs = require('fs');
-var Readable  = require('stream').Readable;
-var Parser = require('newline-json').Parser;
-var Stringifier = require('newline-json').Stringifier;
-
-
 
 
 
 var app = express();
-var parser = new Parser();
-var stringifier = new Stringifier();
 
-var jsonURL = "http://lapi.transitchicago.com/api/1.0/ttpositions.aspx?key=838ed1580f4242f09a361dfb6b8ff32c&rt=red&outputType=json";
+var jsonURL =
+  "http://lapi.transitchicago.com/api/1.0/ttpositions.aspx?key=838ed1580f4242f09a361dfb6b8ff32c&rt=red&outputType=json";
 
 
 var speedtestJson;
+var arrSpeedtestJson;
 
-fs.readFile('../allSpeedData.json', 'utf-8', function(err,data) {
+fs.readFile('../allSpeedData.json', 'utf-8', function(err, data) {
   if (err) throw err;
-  speedtestJson = data;
-  console.log(readable());
+  speedtestJson = (data.split("\n"));
+
+  for (var i = 0; i < speedtestJson.length; i++) {
+    speedtestJson[i] = speedtestJson[i].replace(/'/g, "");
+  }
+  console.log(speedtestJson);
 })
 var trains;
 
@@ -32,10 +31,10 @@ app.set('view engine', 'ejs');
 
 //request json
 request({
-  url:jsonURL,
+  url: jsonURL,
   json: true
-},function(err, res, body){
-  if(!err && res.statusCode === 200){
+}, function(err, res, body) {
+  if (!err && res.statusCode === 200) {
     trains = body.ctatt.route[0].train;
   }
 })
@@ -56,7 +55,8 @@ app.get('/', function(req, res) {
   res.render('routes/index', {
     nightHosts: sampleJSON,
     tagline: tagline,
-    trains: trains
+    trains: trains,
+    speedtestJson: speedtestJson
   });
 });
 
@@ -67,18 +67,3 @@ app.get('/about', function(req, res) {
 
 
 app.listen(8888);
-
-function readable (){
-  var n = 100;
-  var nsjrs = new Readable();
-  nsjrs.__read = function __read (){
-    if (n--){
-      nsjrs.push('{"this":"is","js":"on"}\n');
-    }
-    else nsjrs.push(null);
-  }
-  nsjrs.pipe(parser);
-  var json = parser.pipe(stringifier);
-  return json;
-
-}

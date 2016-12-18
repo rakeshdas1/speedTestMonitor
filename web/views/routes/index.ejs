@@ -18,30 +18,30 @@
       <thead>
         <tr>
         <th>
-          Run Number
+          Time/Date
         </th>
         <th>
-          Next Station Name
+          Down speed
         </th>
         <th>
-          Heading towards
+          Up speed
         </th>
       </tr>
     </thead>
       <tbody>
-        <% trains.forEach(function(train){%>
+        <% for(var i; i<speedtestJson.length; i++) {%>
         <tr>
           <td>
-            <%=train.rn%>
+            <%=speedtestJson[i].time%>
           </td>
           <td>
-            <%=train.nextStaNm%>
+            <%=speedtestJson[i].downSpeed%>
           </td>
           <td>
-            <%=train.destNm%>
+            <%=speedtestJson[i].upSpeed%>
           </td>
         </tr>
-        <%});%>
+        <%}%>
       </tbody>
     </table>
   </body>
