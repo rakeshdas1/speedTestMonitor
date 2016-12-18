@@ -29,19 +29,19 @@
       </tr>
     </thead>
       <tbody>
-        <% for(var i; i<speedtestJson.length; i++) {%>
+        <% speedtestJson.forEach(function(speed){%>
         <tr>
           <td>
-            <%=speedtestJson[i].time%>
+            <%=speed.time%>
           </td>
           <td>
-            <%=speedtestJson[i].downSpeed%>
+            <%=speed.downSpeed%>
           </td>
           <td>
-            <%=speedtestJson[i].upSpeed%>
+            <%=speed.upSpeed%>
           </td>
         </tr>
-        <%}%>
+        <%});%>
       </tbody>
     </table>
   </body>

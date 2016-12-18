@@ -12,15 +12,16 @@ var jsonURL =
 
 
 var speedtestJson;
-var arrSpeedtestJson;
+var arrSpeedtestJson = [0];
 
-fs.readFile('../allSpeedData.json', 'utf-8', function(err, data) {
+fs.readFile('allSpeedData.json', 'utf-8', function(err, data) {
   if (err) throw err;
-  speedtestJson = (data.split("\n"));
+  speedtestJson = data.trim().split("\n");
 
   for (var i = 0; i < speedtestJson.length; i++) {
-    speedtestJson[i] = speedtestJson[i].replace(/'/g, "");
+    speedtestJson[i] = JSON.parse(speedtestJson[i]);
   }
+  // speedtestJson = JSON.stringify(speedtestJson)
   console.log(speedtestJson);
 })
 var trains;
